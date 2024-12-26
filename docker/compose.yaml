@@ -8,7 +8,7 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              count: 1
+              count: 2
               capabilities: [ gpu ]
     network_mode: host # Use host network(IP and ports).
     extra_hosts:
@@ -47,3 +47,5 @@ services:
       # Grant access to usb ports
       - /dev/:/dev/
     tty: true
+    stdin_open: true
+    command: /bin/bash
