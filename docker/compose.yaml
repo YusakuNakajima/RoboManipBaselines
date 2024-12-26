@@ -47,3 +47,4 @@ services:
       # Grant access to usb ports
       - /dev/:/dev/
     tty: true
+    stdin_open: true
