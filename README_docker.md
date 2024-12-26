@@ -1,31 +1,54 @@
-### README for RoboManipBaselines Docker Setup
+### RoboManipBaselines Docker Setup README
 
 #### Overview
-This Docker setup is tailored for the RoboManipBaselines project, specifically using DiffusionPolicy dependencies. To ensure smooth execution of required packages such as `sudo apt install -y libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf`, the Docker image `FROM nvidia/cuda:12.6.3-cudnn-devel-ubuntu22.04` is employed.
+This Docker setup is designed for the **RoboManipBaselines** project, focusing on utilizing dependencies required by the **DiffusionPolicy**. The Docker image `FROM nvidia/cuda:12.6.3-cudnn-devel-ubuntu22.04` is selected to provide GPU support and ensure compatibility with various dependencies.
 
-Additionally, issues were encountered when trying to use `pip install -e .[diffusion-policy]` due to pyproject.toml not being recognized properly. Therefore, a `requirements.txt` file was created to manage dependencies effectively.
+During the setup, several issues were encountered, including difficulties with managing dependencies using `pip install -e .[diffusion-policy]`. To address this, a `requirements.txt` file has been created to streamline the dependency management process.
 
-Furthermore, an issue was resolved related to installing `egl_probe`. The solution involved enhancing CMake as described in this GitHub issue:
+Additionally, an issue with installing `egl_probe` was resolved by enhancing CMake, as outlined in this GitHub issue:
 - [egl_probe Installation Issue](https://github.com/StanfordVL/egl_probe/issues/2)
 
 #### Steps for Setting Up Docker
 
 1. **Base Docker Image**:
-   - `FROM nvidia/cuda:12.6.3-cudnn-devel-ubuntu22.04`
+   - `FROM nvidia/cuda:12.6.3-cudnn-devel-ubuntu22.04` – A CUDA-enabled Ubuntu image optimized for GPU computing with CUDNN support.
 
 2. **Dependencies Installation**:
-   - Required packages for DiffusionPolicy:
+   - Install essential libraries for running DiffusionPolicy:
      ```bash
      sudo apt install -y libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf
      ```
 
 3. **Requirements Management**:
-   - `requirements.txt` is used for dependency management as pyproject.toml was not recognized smoothly with the `pip install -e .[diffusion-policy]` command.
+   - Use `requirements.txt` for managing dependencies. Pyproject.toml was not recognized smoothly with the `pip install -e .[diffusion-policy]` command. 
+     ```bash
+     pip install -r requirements.txt
+     ```
 
-4. **Additional Tools**:
-   - Resolving issues with `egl_probe` by enhancing CMake as described [here](https://github.com/StanfordVL/egl_probe/issues/2). 
+4. **Resolving Installation Issues**:
+   - Addressing the `egl_probe` installation problem by enhancing CMake:
+     ```bash
+     pip install -e .[diffusion-policy]
+     ```
+     For more details, visit:
+     [egl_probe Installation Issue](https://github.com/StanfordVL/egl_probe/issues/2)
 
-This setup ensures that all necessary dependencies for RoboManipBaselines, including those required by DiffusionPolicy, are installed and managed effectively within the Docker environment.
+#### Running the Docker Container
+
+To run the Docker container with all necessary configurations:
+
+```bash
+docker run --gpus=all --name nakajima-robo-manip-baseline-1 --shm-size=64G -v ./:/home/user/RoboManipBaselines -it robo_manip_baseline:latest /bin/bash
+```
+
+This command will start a Docker container with access to GPUs, shared memory, and bind the current directory to the container's `/home/user/RoboManipBaselines`.
+
+---
+
+### Notes:
+- Ensure that your system has sufficient GPU resources if using GPU acceleration.
+- Adjust the shared memory size (`--shm-size`) as needed based on the scale of your tasks.
+- Modify the volume mapping (`-v`) to point to the appropriate directory structure for your RoboManipBaselines project.
 
 
 ## Train and run
