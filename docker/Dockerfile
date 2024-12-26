@@ -1,6 +1,6 @@
 # Parent image is nvidia/cuda
 # Add OpenGL and ROS install below
-FROM nvidia/cuda:12.6.3-cudnn-devel-ubuntu22.04
+FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 LABEL maintainer="YusakuNakajima<yusaku_nakajima@ap.eng.osaka-u.ac.jp>"
 
 # Ignore keyboard layout setting
@@ -68,7 +68,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-
+# Set symbolic link
+RUN ln -sf /usr/bin/python3 /usr/bin/python
 
 # # Add ROS repository and install ROS
 # RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
