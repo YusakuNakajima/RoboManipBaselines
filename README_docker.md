@@ -33,6 +33,13 @@ Additionally, an issue with installing `egl_probe` was resolved by enhancing CMa
      For more details, visit:
      [egl_probe Installation Issue](https://github.com/StanfordVL/egl_probe/issues/2)
 
+#### Matplotlib Issue
+A temporary workaround for using Matplotlib in GTK environments has been implemented:
+```python
+import matplotlib
+matplotlib.use('Agg')  # Use 'Agg' backend for non-interactive environments
+```
+
 #### Running the Docker Container
 
 To run the Docker container with all necessary configurations:
@@ -51,25 +58,56 @@ This command will start a Docker container with access to GPUs, shared memory, a
 - Modify the volume mapping (`-v`) to point to the appropriate directory structure for your RoboManipBaselines project.
 
 
+
+
 ## Train and run
 ### Diffusion policy
 You can see here robo_manip_baselines/diffusion_policy/README.md
 #### Dataset preparation
+```console
 python ../utils/convert_npz_to_zarr.py \
 --in_dir ../teleop/teleop_data/TeleopMujocoUR5eParticle_Dataset30_20241031 --out_dir ./data/TeleopMujocoUR5eParticle_Dataset30_20241031.zarr \
 --nproc `nproc` --skip 3
+```
 
 #### Model training
+```console
 python ./bin/TrainDiffusionPolicy.py \
 task.dataset.zarr_path=./data/TeleopMujocoUR5eParticle_Dataset30_20241031.zarr task.name=TeleopMujocoUR5eParticle_Dataset30_20241031
+```
 
 ### SARNN
+```console
 python ../utils/make_dataset.py \
 --in_dir ../teleop/teleop_data/TeleopMujocoUR5eParticle_Dataset30_20241031 --out_dir ./data/TeleopMujocoUR5eParticle_Dataset30_20241031 \
 --train_ratio 0.8 --nproc `nproc` --skip 6 --cropped_img_size 280 --resized_img_size 64
+```
 
-
+```console
 python ./bin/TrainSarnn.py \
 --data_dir ./data/TeleopMujocoUR5eParticle_Dataset30_20241031 --log_dir ./log/TeleopMujocoUR5eParticle_Dataset30_20241031 \
 --no_side_image --no_wrench --with_mask
+```
 
+```console
+python ./bin/rollout/RolloutSarnnMujocoUR5eCable.py \
+--checkpoint ./log/TeleopMujocoUR5eParticle_Dataset30_20241031/20241226_1307_58/SARNN.pth \
+--cropped_img_size 280 --skip 6 --world_idx 0
+```
+
+### ACT
+```console
+$ python ../utils/make_dataset.py \
+--in_dir ../teleop/teleop_data/TeleopMujocoUR5eParticle_Dataset30_20241031 --out_dir ./data/TeleopMujocoUR5eParticle_Dataset30_20241031 \
+--train_ratio 0.8 --nproc `nproc` --skip 3
+```
+
+```console
+$ python ./bin/TrainAct.py --dataset_dir ./data/TeleopMujocoUR5eParticle_Dataset30_20241031 --log_dir ./log/TeleopMujocoUR5eParticle_Dataset30_20241031
+```
+
+```console
+$ python ./bin/rollout/RolloutActMujocoUR5eParticle.py \
+--checkpoint ./log/TeleopMujocoUR5eParticle_Dataset30_20241031/policy_last.ckpt \
+--skip 3 --world_idx 0
+```
