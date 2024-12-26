@@ -4,6 +4,9 @@ import argparse
 import pickle
 import numpy as np
 import matplotlib.pylab as plt
+import matplotlib
+
+matplotlib.use("Agg")
 import cv2
 import torch
 

@@ -5,6 +5,11 @@ import os
 import pickle
 import argparse
 import matplotlib.pyplot as plt
+import matplotlib
+
+matplotlib.use("Agg")
+
+
 from copy import deepcopy
 from tqdm import tqdm
 from robo_manip_baselines.act import load_data

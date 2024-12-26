@@ -7,6 +7,9 @@ import pickle
 import argparse
 from pathlib import Path
 import matplotlib.pyplot as plt
+import matplotlib
+
+matplotlib.use("Agg")
 from copy import deepcopy
 from tqdm import tqdm
 from einops import rearrange
