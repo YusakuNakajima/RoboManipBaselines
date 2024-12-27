@@ -23,7 +23,7 @@ docker compose -p ${PROJECT} -f $(dirname "$0")/docker/compose.yaml up -d
 ################################################################################
 
 # Display GUI through X Server by granting full access to any external client.
-xhost +local:
+xhost +
 
 ################################################################################
 

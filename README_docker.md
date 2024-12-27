@@ -69,13 +69,19 @@ python ../utils/convert_npz_to_zarr.py \
 --in_dir ../teleop/teleop_data/TeleopMujocoUR5eParticle_Dataset30_20241031 --out_dir ./data/TeleopMujocoUR5eParticle_Dataset30_20241031.zarr \
 --nproc `nproc` --skip 3
 ```
-
-#### Model training
+a#### Model training
 ```console
 python ./bin/TrainDiffusionPolicy.py \
 task.dataset.zarr_path=./data/TeleopMujocoUR5eParticle_Dataset30_20241031.zarr task.name=TeleopMujocoUR5eParticle_Dataset30_20241031
 ```
 
+
+
+```console
+$ python ./bin/rollout/RolloutDiffusionPolicyMujocoUR5eParticle.py \
+--checkpoint ./log/TeleopMujocoUR5eParticle_Dataset30_20241031_20241226_172951/checkpoints/200.ckpt \
+--skip 3 --world_idx 0
+```
 ### SARNN
 ```console
 python ../utils/make_dataset.py \
@@ -90,7 +96,7 @@ python ./bin/TrainSarnn.py \
 ```
 
 ```console
-python ./bin/rollout/RolloutSarnnMujocoUR5eCable.py \
+python ./bin/rollout/RolloutSarnnMujocoUR5eParticle.py \
 --checkpoint ./log/TeleopMujocoUR5eParticle_Dataset30_20241031/20241226_1307_58/SARNN.pth \
 --cropped_img_size 280 --skip 6 --world_idx 0
 ```
