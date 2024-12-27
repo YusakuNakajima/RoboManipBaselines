@@ -5,9 +5,6 @@ import os
 import pickle
 import argparse
 import matplotlib.pyplot as plt
-import matplotlib
-
-matplotlib.use("Agg")
 
 
 from copy import deepcopy

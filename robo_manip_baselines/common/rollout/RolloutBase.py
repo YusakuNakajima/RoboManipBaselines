@@ -6,8 +6,6 @@ import numpy as np
 import matplotlib
 import matplotlib.pylab as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg
-import matplotlib
-matplotlib.use("Agg")
 import cv2
 import torch
 from robo_manip_baselines.common import MotionManager, MotionStatus, DataManager
