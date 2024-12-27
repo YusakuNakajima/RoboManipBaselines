@@ -2,6 +2,7 @@
 # Add OpenGL and ROS install below
 FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 LABEL maintainer="YusakuNakajima<yusaku_nakajima@ap.eng.osaka-u.ac.jp>"
+ARG ROS_DISTRO=humble
 
 # Ignore keyboard layout setting
 ENV DEBIAN_FRONTEND=noninteractive
@@ -74,56 +75,56 @@ RUN ln -sf /usr/bin/python3 /usr/bin/python
 # pip install
 RUN pip install --no-cache-dir cmake
 
-# # Add ROS repository and install ROS
-# RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-# RUN sh -c 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" > /etc/apt/sources.list.d/ros2.list'
+# Add ROS repository and install ROS
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+RUN sh -c 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" > /etc/apt/sources.list.d/ros2.list'
 
-# RUN apt-get update && apt-get install -y \
-#     ros-${ROS_DISTRO}-desktop \
-#     && apt-get clean \
-#     && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    ros-${ROS_DISTRO}-desktop \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# # Install ROS packages
-# RUN apt-get update -q && \
-#     apt-get install -y \
-#     ros-${ROS_DISTRO}-ros2-control \
-#     ros-${ROS_DISTRO}-ros2-controllers \
-#     ros-${ROS_DISTRO}-rqt-controller-manager \
-#     ros-${ROS_DISTRO}-rqt-joint-trajectory-controller \
-#     ros-${ROS_DISTRO}-rviz-visual-tools \
-#     ros-${ROS_DISTRO}-rmw-cyclonedds-cpp \
-#     ros-${ROS_DISTRO}-ur \
-#     ros-${ROS_DISTRO}-moveit-visual-tools \
-#     && apt-get clean \ 
-#     && rm -rf /var/lib/apt/lists/*
+# Install ROS packages
+RUN apt-get update -q && \
+    apt-get install -y \
+    ros-${ROS_DISTRO}-ros2-control \
+    ros-${ROS_DISTRO}-ros2-controllers \
+    ros-${ROS_DISTRO}-rqt-controller-manager \
+    ros-${ROS_DISTRO}-rqt-joint-trajectory-controller \
+    ros-${ROS_DISTRO}-rviz-visual-tools \
+    ros-${ROS_DISTRO}-rmw-cyclonedds-cpp \
+    ros-${ROS_DISTRO}-ur \
+    ros-${ROS_DISTRO}-moveit-visual-tools \
+    && apt-get clean \ 
+    && rm -rf /var/lib/apt/lists/*
 
-# # Install vcstools
-# RUN apt-get update && apt-get install -y \
-#     python3-vcstool \
-#     && apt-get clean \
-#     && rm -rf /var/lib/apt/lists/*
+# Install vcstools
+RUN apt-get update && apt-get install -y \
+    python3-vcstool \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# # Install rosdep
-# RUN apt-get update && apt-get install -y \
-#     python3-rosdep \
-#     && apt-get clean \
-#     && rm -rf /var/lib/apt/lists/*
+# Install rosdep
+RUN apt-get update && apt-get install -y \
+    python3-rosdep \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# # Initialize rosdep
-# RUN rosdep init && rosdep update
+# Initialize rosdep
+RUN rosdep init && rosdep update
 
-# # Install colcon
-# RUN apt-get update && apt-get install -y \
-#     python3-colcon-common-extensions \
-#     && apt-get clean \
-#     && rm -rf /var/lib/apt/lists/*
+# Install colcon
+RUN apt-get update && apt-get install -y \
+    python3-colcon-common-extensions \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 
-# # Setup ROS environments
-# RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /root/.bashrc
-# RUN echo "source /home/ubuntu/onolab/onolab_ws/install/setup.bash" >> /root/.bashrc
-# # Argcomplete for colcon
-# RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> /root/.bashrc
-# # Add alias for easy build
-# RUN echo "alias b='cd /home/ubuntu/onolab/onolab_ws; colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --symlink-install; source /home/ubuntu/onolab/onolab_ws/install/setup.bash'" >> /root/.bashrc
+# Setup ROS environments
+RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /root/.bashrc
+RUN echo "source /home/ubuntu/onolab/onolab_ws/install/setup.bash" >> /root/.bashrc
+# Argcomplete for colcon
+RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> /root/.bashrc
+# Add alias for easy build
+RUN echo "alias b='cd /home/ubuntu/onolab/onolab_ws; colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --symlink-install; source /home/ubuntu/onolab/onolab_ws/install/setup.bash'" >> /root/.bashrc
 
