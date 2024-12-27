@@ -73,7 +73,7 @@ class TeleopBase(metaclass=ABCMeta):
                 # Empirically, you can call read repeatedly to get the latest device status
                 for i in range(10):
                     self.spacemouse_state = pyspacemouse.read()
-
+            
             # Get action
             if self.args.replay_log is not None and self.data_manager.status in (
                 MotionStatus.TELEOP,
@@ -120,6 +120,7 @@ class TeleopBase(metaclass=ABCMeta):
                 iteration_duration_list.append(iteration_duration)
             if iteration_duration < self.env.unwrapped.dt:
                 time.sleep(self.env.unwrapped.dt - iteration_duration)
+            print(f"Step duration: {iteration_duration:.4f} seconds")
 
         print("[TeleopBase] Statistics on teleoperation")
         if len(iteration_duration_list) > 0:
