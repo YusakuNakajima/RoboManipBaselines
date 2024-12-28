@@ -92,17 +92,17 @@ python ./bin/rollout/RolloutSarnnMujocoUR5eParticle.py \
 
 ### ACT
 ```console
-$ python ../utils/make_dataset.py \
+python ../utils/make_dataset.py \
 --in_dir ../teleop/teleop_data/TeleopMujocoUR5eParticle_Dataset30_20241031 --out_dir ./data/TeleopMujocoUR5eParticle_Dataset30_20241031 \
 --train_ratio 0.8 --nproc `nproc` --skip 3
 ```
 
 ```console
-$ python ./bin/TrainAct.py --dataset_dir ./data/TeleopMujocoUR5eParticle_Dataset30_20241031 --log_dir ./log/TeleopMujocoUR5eParticle_Dataset30_20241031
+python ./bin/TrainAct.py --dataset_dir ./data/TeleopMujocoUR5eParticle_Dataset30_20241031 --log_dir ./log/TeleopMujocoUR5eParticle_Dataset30_20241031
 ```
 
 ```console
-$ python ./bin/rollout/RolloutActMujocoUR5eParticle.py \
+python ./bin/rollout/RolloutActMujocoUR5eParticle.py \
 --checkpoint ./log/TeleopMujocoUR5eParticle_Dataset30_20241031/policy_last.ckpt \
 --skip 3 --world_idx 0
 ```
