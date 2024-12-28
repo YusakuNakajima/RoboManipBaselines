@@ -60,15 +60,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libosmesa6-dev \
-    libgl1-mesa-glx \
-    libglfw3 \
-    patchelf \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
 # Set symbolic link
 RUN ln -sf /usr/bin/python3 /usr/bin/python
 
