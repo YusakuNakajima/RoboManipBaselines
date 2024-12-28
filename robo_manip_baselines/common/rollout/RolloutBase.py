@@ -34,19 +34,24 @@ class RolloutBase(metaclass=ABCMeta):
 
         inference_duration_list = []
         while True:
+            st_time = time.time()
             if self.data_manager.status == MotionStatus.TELEOP:
                 inference_start_time = time.time()
                 inference_called = self.infer_policy()
                 inference_duration = time.time() - inference_start_time
                 if inference_called:
                     inference_duration_list.append(inference_duration)
-
+            command_st_time = time.time()
             self.set_arm_command()
             self.set_gripper_command()
-
+            action_st_time = time.time()
             action = self.motion_manager.get_action()
+            step_st_time = time.time()
             self.obs, _, _, _, self.info = self.env.step(action)
+            step_end_time = time.time()
+            
 
+            
             if self.data_manager.status == MotionStatus.TELEOP:
                 self.draw_plot()
 
@@ -98,7 +103,13 @@ class RolloutBase(metaclass=ABCMeta):
                     break
             if key == 27:  # escape key
                 break
-
+            
+            print(
+                f"inference time: {round(step_st_time - command_st_time, 3)}, " +
+                f"command time: {round(action_st_time - command_st_time, 3)}, " +
+                f"action time: {round(step_st_time - action_st_time, 3)}, " +
+                f"step time: {round(step_end_time - step_st_time, 3)}, " +
+                f"total time: {round(time.time() - st_time, 3)}")
         # self.env.close()
 
     def setup_args(self, parser=None, argv=None):
