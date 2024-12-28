@@ -105,6 +105,7 @@ class RolloutBase(metaclass=ABCMeta):
                 break
             
             print(
+                f"status: {self.data_manager.status.name}, " +
                 f"inference time: {round(step_st_time - command_st_time, 3)}, " +
                 f"command time: {round(action_st_time - command_st_time, 3)}, " +
                 f"action time: {round(step_st_time - action_st_time, 3)}, " +
