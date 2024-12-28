@@ -54,7 +54,7 @@ sudo apt-get install cmake
 ## Train and run
 ### Diffusion policy
 You can see here robo_manip_baselines/diffusion_policy/README.md
-#### Dataset preparation
+
 ```console
 python ../utils/convert_npz_to_zarr.py \
 --in_dir ../teleop/teleop_data/TeleopMujocoUR5eParticle_Dataset30_20241031 --out_dir ./data/TeleopMujocoUR5eParticle_Dataset30_20241031.zarr \
@@ -67,7 +67,7 @@ task.dataset.zarr_path=./data/TeleopMujocoUR5eParticle_Dataset30_20241031.zarr t
 ```
 
 ```console
-$ python ./bin/rollout/RolloutDiffusionPolicyMujocoUR5eParticle.py \
+python ./bin/rollout/RolloutDiffusionPolicyMujocoUR5eParticle.py \
 --checkpoint ./log/TeleopMujocoUR5eParticle_Dataset30_20241031_20241226_172951/checkpoints/200.ckpt \
 --skip 3 --world_idx 0
 ```
