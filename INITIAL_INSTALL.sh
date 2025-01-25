@@ -1,6 +1,12 @@
 cd /home/user/RoboManipBaselines
+
+sudo apt install -y libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf
+
 pip install -e .
-pip install -r requirements.txt
+pip install -e .[act]
+pip install -e .[sarnn]
+pip install -e .[deiffusion-policy]
+# pip install -r requirements.txt
 
 
 cd /home/user/RoboManipBaselines/third_party/eipl
