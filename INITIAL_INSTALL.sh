@@ -5,8 +5,7 @@ sudo apt install -y libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf
 pip install -e .
 pip install -e .[act]
 pip install -e .[sarnn]
-pip install -e .[deiffusion-policy]
-pip install zarr
+pip install -e .[diffusion-policy]
 
 
 cd ~/RoboManipBaselines/third_party/eipl
