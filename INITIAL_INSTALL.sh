@@ -6,7 +6,7 @@ pip install -e .
 pip install -e .[act]
 pip install -e .[sarnn]
 pip install -e .[deiffusion-policy]
-# pip install -r requirements.txt
+pip install zarr
 
 
 cd ~/RoboManipBaselines/third_party/eipl
