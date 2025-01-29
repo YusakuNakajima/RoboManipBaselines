@@ -1,4 +1,4 @@
-cd /home/user/RoboManipBaselines
+cd ~/RoboManipBaselines
 
 sudo apt install -y libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf
 
@@ -6,18 +6,18 @@ pip install -e .
 pip install -e .[act]
 pip install -e .[sarnn]
 pip install -e .[deiffusion-policy]
-# pip install -r requirements.txt
+pip install zarr
 
 
-cd /home/user/RoboManipBaselines/third_party/eipl
+cd ~/RoboManipBaselines/third_party/eipl
 pip install -e .
-cd /home/user/RoboManipBaselines/third_party/act/detr
+cd ~/RoboManipBaselines/third_party/act/detr
 pip install -e .
-cd /home/user/RoboManipBaselines/third_party/r3m
+cd ~/RoboManipBaselines/third_party/r3m
 pip install -e .
-cd /home/user/RoboManipBaselines/third_party/diffusion_policy
+cd ~/RoboManipBaselines/third_party/diffusion_policy
 pip install -e .
-cd /home/user/RoboManipBaselines/third_party/gello_software
+cd ~/RoboManipBaselines/third_party/gello_software
 pip install -e .
 
-cd /home/user/RoboManipBaselines
+cd ~/RoboManipBaselines
